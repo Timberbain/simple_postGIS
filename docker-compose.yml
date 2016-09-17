@@ -1,0 +1,29 @@
+web:
+    build: .
+    dockerfile: web.dockerfile
+    ports:
+        - 8080:80
+    volumes:
+        - ./web:/www
+        - ./config/nginx.conf:/etc/nginx/conf.d/default.conf
+    links:
+        - php
+
+php:
+    build: .
+    dockerfile: php.dockerfile
+    volumes:
+        - ./web:/www
+    links:
+        - db:postgres
+db:
+    build: .
+    dockerfile: db2.dockerfile
+    ports:
+        - 5432:5432
+    volumes:
+        - ./files:/shapefiles
+    environment:
+        - POSTGRES_USER=postgis
+        - POSTGRES_PASS=postpass
+        - ALLOW_IP_RANGE=0.0.0.0/0
