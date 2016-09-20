@@ -19,21 +19,35 @@ function init() {
     var marker = L.marker(home).addTo(mymap);
     marker.bindPopup("<b>Epicenter</b>");
 
-    var myIcon = L.icon({
-        iconUrl: 'images/wiki_marker_small.png',
-        iconRetinaUrl: 'images/wiki_marker.png',
-        iconSize: [38, 50],
-        iconAnchor: [15, 48],
-        popupAnchor: [0, -40]
-    });
-    callWiki(home, 1000, function(data){
-        for(var i in data){
-            let marker = L.marker([data[i].lat, data[i].lon], {
-                icon: myIcon
-            }).addTo(mymap);
-            marker.bindPopup(`<div><img src="images/wikilogo.png" style="height: 25px; width: 25px; vertical-align: middle; margin: 6px;"><a href=${data[i].link}><b>${data[i].title}</b></a></div>`);
+    console.log(areas);
+    L.geoJson(areas, {
+        style: function(){
+            return {
+                "fillColor": "#0000FF",         //Area color
+                "color": "#000",                //Border color
+                "weight": 2                     //Border width
+                "fillOpacity": 0.2
+            }
         }
-    });
+    }).addTo(mymap);
+
+
+    // WIKIPEDIA
+    // var myIcon = L.icon({
+    //     iconUrl: 'images/wiki_marker_small.png',
+    //     iconRetinaUrl: 'images/wiki_marker.png',
+    //     iconSize: [38, 50],
+    //     iconAnchor: [15, 48],
+    //     popupAnchor: [0, -40]
+    // });
+    // callWiki(home, 1000, function(data){
+    //     for(var i in data){
+    //         let marker = L.marker([data[i].lat, data[i].lon], {
+    //             icon: myIcon
+    //         }).addTo(mymap);
+    //         marker.bindPopup(`<div><img src="images/wikilogo.png" style="height: 25px; width: 25px; vertical-align: middle; margin: 6px;"><a href=${data[i].link}><b>${data[i].title}</b></a></div>`);
+    //     }
+    // });
 
 }
 
